@@ -1,6 +1,6 @@
 import 'angular'
 import mineSweeperController from './controller.js';
-import './styles.css';
+import './styles.scss';
 
 let moduleName = 'minesweeper';
 
