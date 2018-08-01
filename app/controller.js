@@ -1,8 +1,10 @@
-export default function mineSweeperController() {
+export default function mineSweeperController($timeout) {
     let vm = this;
     vm.grid = [];
     vm.gridWidth = 8;
     vm.numMines = 10;
+    vm.gridWidthOptions = Array(10).fill().map((_, i) => i + 5);
+    vm.numMinesOptions = Array(25).fill().map((_, i) => i + 5);
 
     let createGrid = () => {
         for (let i = 0; i < vm.gridWidth; i++) {
@@ -68,13 +70,32 @@ export default function mineSweeperController() {
         cell.clicked = true;
     }
 
+    vm.showMines = () => {
+        vm.cheatActive = true;
+        $timeout(() => {
+            vm.cheatActive = false;
+        }, 3000)
+    }
+
+    vm.checkForVictory = () => {
+        vm.playingGame = false;
+        vm.gameOver = true;
+        for (let i = 0; i < vm.gridWidth; i++) {
+            for (let j = 0; j < vm.gridWidth; j++) {
+                if (!vm.grid[i][j].clicked && vm.grid[i][j].hasMine) {
+                    vm.isWinner = false;
+                    return;
+                }
+            }
+        }
+        vm.isWinner = true;
+    }
+
     vm.newGame = () => {
         createGrid();
         addMines();
         setNumAdjacentMines();
+        vm.playingGame = true;
+        vm.gameOver = false;
     }
-
-
-
-    vm.gameName = 'Minesweeper';
 }

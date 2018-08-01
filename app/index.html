@@ -5,15 +5,27 @@
     </head>
 <body>
     <div ng-controller="MineSweeperController as msCtrl" class="minesweeper">
-        <h1>{{msCtrl.gameName}}</h1>
+        <h1>Minesweeper!</h1>
 
         <button  ng-click="msCtrl.newGame()">New Game!</button>
+        Grid size: <select ng-model="msCtrl.gridWidth" ng-options="width for width in msCtrl.gridWidthOptions"></select>
+        Number of mines: <select ng-model="msCtrl.numMines" ng-options="numMines for numMines in msCtrl.numMinesOptions"></select>
+        <button ng-click="msCtrl.showMines()" ng-if="msCtrl.playingGame">Show me the mines!</button>
+        <button ng-click="msCtrl.checkForVictory()" ng-if="msCtrl.playingGame">I'm done!</button>
 
-        <table>
+        <div class="end-of-game" ng-if="!msCtrl.playingGame && msCtrl.gameOver" ng-cloak>
+            <span ng-if="msCtrl.isWinner" class="winner">
+                VICTORY IS YOURS!!!
+            </span>
+            <span ng-if="!msCtrl.isWinner" class="loser">
+                Sorry bud, you missed some bombs 😱
+            </span>
+        </div>
+        <table ng-if="msCtrl.playingGame" ng-cloak>
             <tr ng-repeat="row in msCtrl.grid">
                 <td ng-repeat="cell in row">
                     <button class="cell" ng-class="{'mine': cell.clicked && cell.hasMine}" ng-click="msCtrl.clickedCell(cell)">
-                        <span ng-if="cell.clicked && cell.hasMine">
+                        <span ng-if="(cell.clicked && cell.hasMine) || (msCtrl.cheatActive && cell.hasMine)">
                             💣
                         </span>
                         <span ng-if="cell.clicked && !cell.hasMine">
