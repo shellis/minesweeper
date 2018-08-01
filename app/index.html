@@ -9,12 +9,17 @@
         <table>
             <tr ng-repeat="row in msCtrl.grid" class="grid">
                 <td ng-repeat="cell in row">
-                    <button class="cell" ng-class="{'mine': cell.hasMine}" ng-click="msCtrl.clickedCell(cell)">{{cell.numSurroundingMines}}</button>
+                    <button class="cell" ng-class="{'mine': cell.clicked && cell.hasMine}" ng-click="msCtrl.clickedCell(cell)">
+                        <span ng-if="cell.clicked && cell.hasMine">
+                            💣
+                        </span>
+                        <span ng-if="cell.clicked && !cell.hasMine">
+                            {{cell.numSurroundingMines}}
+                        </span>
+                    </button>
                 </td>
             </tr>
         </table>
-
-
     </div>
 </body>
 </html>

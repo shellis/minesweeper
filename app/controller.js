@@ -16,7 +16,7 @@ export default function mineSweeperController() {
                 });
             }
         }
-        addMines();
+
     }
     let addMines = () => {
         let numMinesAdded = 0;
@@ -28,7 +28,6 @@ export default function mineSweeperController() {
                 numMinesAdded++;
             }
         }
-        setNumAdjacentMines();
     }
 
     let setNumAdjacentMines = () => {
@@ -49,11 +48,31 @@ export default function mineSweeperController() {
         }
     }
 
+    let markSurroundingMines = (cell) => {
+        cell.clicked = true;
+        for (let k = cell.row - 1; k <= cell.row + 1; k++) {
+            for (let l = cell.column - 1; l <= cell.column + 1; l++) {
+                if (k >= 0 && k < vm.gridWidth && l >= 0 && l < vm.gridWidth && !(k === cell.row && l === cell.column)) {
+                    if (vm.grid[k][l].numSurroundingMines === 0 && !vm.grid[k][l].clicked) {
+                        markSurroundingMines(vm.grid[k][l]);
+                    }
+                    cell.clicked = true;
+
+                }
+            }
+        }
+    }
+
     vm.clickedCell = (cell) => {
-        alert(`${cell.row} ${cell.column} ${cell.hasMine}`);
+        if (cell.numSurroundingMines == 0) {
+            markSurroundingMines(cell);
+        }
+        cell.clicked = true;
     }
 
     createGrid();
+    addMines();
+    setNumAdjacentMines();
 
     vm.gameName = 'Minesweeper';
 }
