@@ -56,8 +56,6 @@ export default function mineSweeperController() {
                     if (vm.grid[k][l].numSurroundingMines === 0 && !vm.grid[k][l].clicked) {
                         markSurroundingMines(vm.grid[k][l]);
                     }
-                    cell.clicked = true;
-
                 }
             }
         }
