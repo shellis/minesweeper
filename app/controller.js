@@ -11,7 +11,6 @@ export default function mineSweeperController() {
                 vm.grid[i].push({
                     'hasClicked': false,
                     'hasMine': false,
-                    'numSurroundingMines': 0,
                     'row': i,
                     'column': j,
                 });
@@ -27,6 +26,25 @@ export default function mineSweeperController() {
             if (!vm.grid[randomRow][randomCol].hasMine) {
                 vm.grid[randomRow][randomCol].hasMine = true;
                 numMinesAdded++;
+            }
+        }
+        setNumAdjacentMines();
+    }
+
+    let setNumAdjacentMines = () => {
+        for (let i = 0; i < vm.gridWidth; i++) {
+            for (let j = 0; j < vm.gridWidth; j++) {
+                let numSurroundingMines = 0;
+                for (let k = i - 1; k <= i + 1; k++) {
+                    for (let l = j - 1; l <= j + 1; l++) {
+                        if (k >= 0 && k < vm.gridWidth && l >= 0 && l < vm.gridWidth && !(k === i && l === j)) {
+                            if (vm.grid[k][l].hasMine) {
+                                numSurroundingMines++;
+                            }
+                        }
+                    }
+                }
+                vm.grid[i][j].numSurroundingMines = numSurroundingMines;
             }
         }
     }
