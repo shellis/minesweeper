@@ -16,8 +16,8 @@ export default function mineSweeperController() {
                 });
             }
         }
-
     }
+
     let addMines = () => {
         let numMinesAdded = 0;
         while (numMinesAdded < vm.numMines) {
@@ -68,9 +68,13 @@ export default function mineSweeperController() {
         cell.clicked = true;
     }
 
-    createGrid();
-    addMines();
-    setNumAdjacentMines();
+    vm.newGame = () => {
+        createGrid();
+        addMines();
+        setNumAdjacentMines();
+    }
+
+
 
     vm.gameName = 'Minesweeper';
 }

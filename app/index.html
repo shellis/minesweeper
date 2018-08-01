@@ -6,8 +6,11 @@
 <body>
     <div ng-controller="MineSweeperController as msCtrl" class="minesweeper">
         <h1>{{msCtrl.gameName}}</h1>
+
+        <button  ng-click="msCtrl.newGame()">New Game!</button>
+
         <table>
-            <tr ng-repeat="row in msCtrl.grid" class="grid">
+            <tr ng-repeat="row in msCtrl.grid">
                 <td ng-repeat="cell in row">
                     <button class="cell" ng-class="{'mine': cell.clicked && cell.hasMine}" ng-click="msCtrl.clickedCell(cell)">
                         <span ng-if="cell.clicked && cell.hasMine">
