@@ -1,6 +1,18 @@
 .minesweeper {
     h1 {
-        color: blue
+        color: blue;
+    }
+    .grid {
+        width: 50%;
+        text-align: center;
+        .cell {
+            background-color: grey;
+            border: 1px solid;
+            padding: 25px;
+                &.mine {
+                      background-color: red;
+                }
+            }
     }
 }
 

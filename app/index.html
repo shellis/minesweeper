@@ -6,6 +6,15 @@
 <body>
     <div ng-controller="MineSweeperController as msCtrl" class="minesweeper">
         <h1>{{msCtrl.gameName}}</h1>
+        <table>
+            <tr ng-repeat="row in msCtrl.grid" class="grid">
+                <td ng-repeat="cell in row">
+                    <button class="cell" ng-class="{'mine': cell.hasMine}" ng-click="msCtrl.clickedCell(cell)"></button>
+                </td>
+            </tr>
+        </table>
+
+
     </div>
 </body>
 </html>
