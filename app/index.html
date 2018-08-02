@@ -7,13 +7,13 @@
         <div ng-controller="MineSweeperController as msCtrl" class="minesweeper">
             <h1>Minesweeper!</h1>
             <div class="action-buttons">
-                <button  ng-click="msCtrl.newGame()" class="action-button">New Game!</button>
+                <button  ng-click="msCtrl.newGame()" ng-if="!msCtrl.playingGame" class="action-button">New Game!</button>
                 <span ng-if="!msCtrl.playingGame">Grid size: <select ng-model="msCtrl.gridWidth" ng-options="width for width in msCtrl.gridWidthOptions"></select></span>
                 <span ng-if="!msCtrl.playingGame">Number of mines: <select ng-model="msCtrl.numMines" ng-options="numMines for numMines in msCtrl.numMinesOptions"></select></span>
                 <button ng-click="msCtrl.showMines()" ng-disabled="msCtrl.clickedMine" ng-if="msCtrl.playingGame" class="action-button">Show me the mines!</button>
                 <button ng-click="msCtrl.checkForVictory()" ng-disabled="msCtrl.clickedMine" ng-if="msCtrl.playingGame" class="action-button">I'm done! 😀</button>
             </div>
-            <div class="end-of-game" ng-if="!msCtrl.playingGame && msCtrl.gameOver" ng-cloak>
+            <div class="end-of-game" ng-show="!msCtrl.playingGame && msCtrl.gameOver" ng-cloak>
                 <span ng-if="msCtrl.endGameState == 'victory'" class="winner">
                     VICTORY IS YOURS!!!
                 </span>
@@ -36,7 +36,6 @@
                                     {{cell.numSurroundingMines}}
                                 </span>
                             </div>
-
                         </button>
                     </td>
                 </tr>

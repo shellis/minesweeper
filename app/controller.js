@@ -64,7 +64,7 @@ export default function mineSweeperController($timeout) {
     }
 
     vm.clickedCell = (cell) => {
-        if (cell.hasMine && !cell.clickedMine) {
+        if (cell.hasMine && !vm.clickedMine) {
             vm.clickedMine = true;
             cell.clicked = true;
             vm.cheatActive = true;
