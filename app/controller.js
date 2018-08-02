@@ -3,15 +3,15 @@ export default function mineSweeperController($timeout) {
     vm.grid = [];
     vm.gridWidth = 8;
     vm.numMines = 10;
-    vm.gridWidthOptions = Array(10).fill().map((_, i) => i + 5);
-    vm.numMinesOptions = Array(25).fill().map((_, i) => i + 5);
+    vm.gridWidthOptions = Array(6).fill().map((_, i) => i + 5);
+    vm.numMinesOptions = Array(20).fill().map((_, i) => i + 5);
 
     let createGrid = () => {
         for (let i = 0; i < vm.gridWidth; i++) {
             vm.grid[i] = [];
             for (let j = 0; j < vm.gridWidth; j++) {
                 vm.grid[i].push({
-                    'hasClicked': false,
+                    'clicked': false,
                     'hasMine': false,
                     'row': i,
                     'column': j,
@@ -95,7 +95,7 @@ export default function mineSweeperController($timeout) {
         vm.gameOver = true;
         for (let i = 0; i < vm.gridWidth; i++) {
             for (let j = 0; j < vm.gridWidth; j++) {
-                if (!vm.grid[i][j].clicked && vm.grid[i][j].hasMine) {
+                if (!vm.grid[i][j].clicked && !vm.grid[i][j].hasMine) {
                     vm.endGameState = `attemptFail`;
                     return;
                 }
