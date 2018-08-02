@@ -64,10 +64,23 @@ export default function mineSweeperController($timeout) {
     }
 
     vm.clickedCell = (cell) => {
-        if (cell.numSurroundingMines == 0) {
-            markSurroundingMines(cell);
+        if (cell.hasMine && !cell.clickedMine) {
+            vm.clickedMine = true;
+            cell.clicked = true;
+            vm.cheatActive = true;
+            $timeout(() => {
+                vm.playingGame = false;
+                vm.endGameState = `hitMine`;
+                vm.gameOver = true;
+                vm.cheatActive = false;
+            }, 2000)
         }
-        cell.clicked = true;
+        if (!vm.clickedMine) {
+            if (cell.numSurroundingMines == 0) {
+                markSurroundingMines(cell);
+            }
+            cell.clicked = true;
+        }
     }
 
     vm.showMines = () => {
@@ -83,19 +96,22 @@ export default function mineSweeperController($timeout) {
         for (let i = 0; i < vm.gridWidth; i++) {
             for (let j = 0; j < vm.gridWidth; j++) {
                 if (!vm.grid[i][j].clicked && vm.grid[i][j].hasMine) {
-                    vm.isWinner = false;
+                    vm.endGameState = `attemptFail`;
                     return;
                 }
             }
         }
-        vm.isWinner = true;
+        vm.endGameState = `victory`;
     }
 
     vm.newGame = () => {
+        vm.grid = [];
         createGrid();
         addMines();
         setNumAdjacentMines();
         vm.playingGame = true;
         vm.gameOver = false;
+        vm.clickedMine = false;
+        vm.endGameState = null;
     }
 }

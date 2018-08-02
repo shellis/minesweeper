@@ -3,38 +3,44 @@
     <head>
         <title>The game that will blow your mine!</title>
     </head>
-<body>
-    <div ng-controller="MineSweeperController as msCtrl" class="minesweeper">
-        <h1>Minesweeper!</h1>
+    <body>
+        <div ng-controller="MineSweeperController as msCtrl" class="minesweeper">
+            <h1>Minesweeper!</h1>
+            <div class="action-buttons">
+                <button  ng-click="msCtrl.newGame()" class="action-button">New Game!</button>
+                <span ng-if="!msCtrl.playingGame">Grid size: <select ng-model="msCtrl.gridWidth" ng-options="width for width in msCtrl.gridWidthOptions"></select></span>
+                <span ng-if="!msCtrl.playingGame">Number of mines: <select ng-model="msCtrl.numMines" ng-options="numMines for numMines in msCtrl.numMinesOptions"></select></span>
+                <button ng-click="msCtrl.showMines()" ng-disabled="msCtrl.clickedMine" ng-if="msCtrl.playingGame" class="action-button">Show me the mines!</button>
+                <button ng-click="msCtrl.checkForVictory()" ng-disabled="msCtrl.clickedMine" ng-if="msCtrl.playingGame" class="action-button">I'm done! 😀</button>
+            </div>
+            <div class="end-of-game" ng-if="!msCtrl.playingGame && msCtrl.gameOver" ng-cloak>
+                <span ng-if="msCtrl.endGameState == 'victory'" class="winner">
+                    VICTORY IS YOURS!!!
+                </span>
+                <span ng-if="msCtrl.endGameState == 'attemptFail'" class="loser">
+                    Sorry bud, you missed some bombs 😱
+                </span>
+                <span ng-if="msCtrl.endGameState == 'hitMine'" class="loser">
+                    Dangit!!! 💣
+                </span>
+            </div>
+            <table ng-if="msCtrl.playingGame" ng-cloak>
+                <tr ng-repeat="row in msCtrl.grid">
+                    <td ng-repeat="cell in row">
+                        <button class="cell" ng-class="{'mine': cell.clicked && cell.hasMine, 'no-mine': cell.clicked && !cell.hasMine}" ng-click="msCtrl.clickedCell(cell)">
+                            <div class="cell-content">
+                                 <span ng-if="(cell.clicked && cell.hasMine) || (msCtrl.cheatActive && cell.hasMine)">
+                                    💣
+                                </span>
+                                <span ng-if="cell.clicked && !cell.hasMine">
+                                    {{cell.numSurroundingMines}}
+                                </span>
+                            </div>
 
-        <button  ng-click="msCtrl.newGame()">New Game!</button>
-        Grid size: <select ng-model="msCtrl.gridWidth" ng-options="width for width in msCtrl.gridWidthOptions"></select>
-        Number of mines: <select ng-model="msCtrl.numMines" ng-options="numMines for numMines in msCtrl.numMinesOptions"></select>
-        <button ng-click="msCtrl.showMines()" ng-if="msCtrl.playingGame">Show me the mines!</button>
-        <button ng-click="msCtrl.checkForVictory()" ng-if="msCtrl.playingGame">I'm done!</button>
-
-        <div class="end-of-game" ng-if="!msCtrl.playingGame && msCtrl.gameOver" ng-cloak>
-            <span ng-if="msCtrl.isWinner" class="winner">
-                VICTORY IS YOURS!!!
-            </span>
-            <span ng-if="!msCtrl.isWinner" class="loser">
-                Sorry bud, you missed some bombs 😱
-            </span>
+                        </button>
+                    </td>
+                </tr>
+            </table>
         </div>
-        <table ng-if="msCtrl.playingGame" ng-cloak>
-            <tr ng-repeat="row in msCtrl.grid">
-                <td ng-repeat="cell in row">
-                    <button class="cell" ng-class="{'mine': cell.clicked && cell.hasMine}" ng-click="msCtrl.clickedCell(cell)">
-                        <span ng-if="(cell.clicked && cell.hasMine) || (msCtrl.cheatActive && cell.hasMine)">
-                            💣
-                        </span>
-                        <span ng-if="cell.clicked && !cell.hasMine">
-                            {{cell.numSurroundingMines}}
-                        </span>
-                    </button>
-                </td>
-            </tr>
-        </table>
-    </div>
-</body>
+    </body>
 </html>
